@@ -1,31 +1,60 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
+import { createClient } from '@supabase/supabase-js';
+import Globais from './Globais';
+
+const SUPABASE_ANNON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQ5NjU1MiwiZXhwIjoxOTU5MDcyNTUyfQ.4AjVxVjbY23ie9CxUac0KaqmdyrRH_Hb4nD9iVMuDvc';
+const SUPABASE_URL = 'https://nhgcbokhcwoteyicnmvw.supabase.co';
+const SUPABASE = createClient(SUPABASE_URL, SUPABASE_ANNON_KEY);
+
+
 
 export default function ChatPage() {
     const [mensagem, setMensagem] = React.useState('');
     const [listaMensagem, setListaMensagem] = React.useState([]);
+    
+    
+    React.useEffect(()=>{
+        SUPABASE
+            .from('mensagens')
+            .select('*')
+            .order('id', {ascending: false})
+            .then(({data})=>{
+                setListaMensagem(data);
+            });
+    },[listaMensagem]);
+    
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
-            id: listaMensagem.length + 1,
             texto: novaMensagem,
-            de: 'Luc45-Pereira'
-        }
-        setListaMensagem([
-            mensagem,
-            ...listaMensagem,
-        ]);
+            de: Globais.username
+        };
+
+        SUPABASE
+            .from('mensagens')
+            .insert([
+                mensagem
+            ])
+            .then(({data})=>{
+                setListaMensagem([
+                    data[0],
+                    ...listaMensagem,
+                ]);
+            });
+        console.log(listaMensagem)
         setMensagem('');
-    }
+    };
+
+
 
     return (
         <Box
             styleSheet={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backgroundColor: appConfig.theme.colors.primary[500],
-                backgroundImage: `url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)`,
+                backgroundImage: `url(https://media.istockphoto.com/photos/abstract-watercolor-wavy-painting-with-beautiful-seaside-colour-tones-picture-id1131857558?b=1&k=20&m=1131857558&s=170667a&w=0&h=Y_A2GcJcHsgFsiD6XqDTeLnIUoEOVu7rCU-_q3B7a5Q=)`,
                 backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
-                color: appConfig.theme.colors.neutrals['000']
+                color: appConfig.theme.colors.neutrals['300']
             }}
         >
             <Box
@@ -91,7 +120,7 @@ export default function ChatPage() {
                                 padding: '6px 8px',
                                 backgroundColor: appConfig.theme.colors.neutrals[800],
                                 marginRight: '12px',
-                                color: appConfig.theme.colors.neutrals[200],
+                                color: appConfig.theme.colors.neutrals[100],
                             }}
                         />
                     </Box>
@@ -160,7 +189,7 @@ function MessageList(props) {
                                         display: 'inline-block',
                                         marginRight: '8px',
                                     }}
-                                    src={`https://github.com/vanessametonini.png`}
+                                    src={`https://github.com/${mensagem.de}.png`}
                                 />
                                 <Text tag="strong">
                                     {mensagem.de}

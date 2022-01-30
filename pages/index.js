@@ -2,6 +2,8 @@ import appConfig from '../config.json';
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import React from 'react';
 import { useRouter } from 'next/router';
+import Globais from './Globais';
+
 
 //props = valor passado em uma tag de outro componente
 function Titulo(props) {
@@ -12,7 +14,7 @@ function Titulo(props) {
             <Tag>{props.children}</Tag>
             <style jsx>{`
                 ${Tag}{
-                  color: ${appConfig.theme.colors.neutrals['000']};
+                  color: ${appConfig.theme.colors.neutrals['300']};
                   font-size: 24px;
                   font-weight: 600;  
                 }
@@ -48,15 +50,15 @@ export default function PaginaInicial() {
     //const username = 'Luc45-Pereira';
     const [username, setUsername] = React.useState('Luc45-Pereira');
     const roteamento = useRouter();
-
+    Globais.username = username;
 
     return (
         <>
             <Box
                 styleSheet={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    backgroundColor: appConfig.theme.colors.primary[500],
-                    backgroundImage: 'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
+                    
+                    backgroundImage: 'url(https://media.istockphoto.com/photos/abstract-watercolor-wavy-painting-with-beautiful-seaside-colour-tones-picture-id1131857558?b=1&k=20&m=1131857558&s=170667a&w=0&h=Y_A2GcJcHsgFsiD6XqDTeLnIUoEOVu7rCU-_q3B7a5Q=)',
                     backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
                 }}
             >
@@ -80,8 +82,11 @@ export default function PaginaInicial() {
                         as="form"
                         onSubmit={
                             function (infosDoEvento) {
-                                infosDoEvento.preventDefault()
-                                roteamento.push('/chat')
+                                if(username!=''){
+                                    infosDoEvento.preventDefault()
+                                    roteamento.push('/chat')
+                                }
+                                
                             }
                         }
                         styleSheet={{
@@ -106,7 +111,7 @@ export default function PaginaInicial() {
                             fullWidth
                             textFieldColors={{
                                 neutral: {
-                                    textColor: appConfig.theme.colors.neutrals[200],
+                                    textColor: appConfig.theme.colors.neutrals[300],
                                     mainColor: appConfig.theme.colors.neutrals[900],
                                     mainColorHighlight: appConfig.theme.colors.primary[500],
                                     backgroundColor: appConfig.theme.colors.neutrals[800],
@@ -149,12 +154,13 @@ export default function PaginaInicial() {
                                 borderRadius: '50%',
                                 marginBottom: '16px',
                             }}
+                            alt='Usuario não encontrado!'
                             src={`https://github.com/${username}.png`}
                         />
                         <Text
                             variant="body4"
                             styleSheet={{
-                                color: appConfig.theme.colors.neutrals[200],
+                                color: appConfig.theme.colors.neutrals[300],
                                 backgroundColor: appConfig.theme.colors.neutrals[900],
                                 padding: '3px 10px',
                                 borderRadius: '1000px'

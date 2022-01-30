@@ -24,26 +24,6 @@ function Titulo(props) {
     );
 }
 
-
-
-//Componente React
-/*function HomePage() {
-    //JSX
-    return (
-        <div>
-            <GlobalStyle/>
-            <Title tag="h1">Boas vindas de volta</Title>
-            <h2>Discord - Alura Matrix</h2>
-
-            <style jsx>{`
-                h1{
-                  color: black;  
-                }
-            `}</style>
-        </div>
-    )
-}*/
-
 //export default HomePage
 
 export default function PaginaInicial() {

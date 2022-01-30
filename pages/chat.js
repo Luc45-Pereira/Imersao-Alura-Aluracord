@@ -2,7 +2,7 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
-import Globais from './Globais';
+import { useRouter } from 'next/router';
 
 const SUPABASE_ANNON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQ5NjU1MiwiZXhwIjoxOTU5MDcyNTUyfQ.4AjVxVjbY23ie9CxUac0KaqmdyrRH_Hb4nD9iVMuDvc';
 const SUPABASE_URL = 'https://nhgcbokhcwoteyicnmvw.supabase.co';
@@ -13,7 +13,8 @@ const SUPABASE = createClient(SUPABASE_URL, SUPABASE_ANNON_KEY);
 export default function ChatPage() {
     const [mensagem, setMensagem] = React.useState('');
     const [listaMensagem, setListaMensagem] = React.useState([]);
-    
+    const roteamento = useRouter();
+    const loginUser = roteamento.query.username;
     
     React.useEffect(()=>{
         SUPABASE
@@ -28,7 +29,7 @@ export default function ChatPage() {
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
             texto: novaMensagem,
-            de: Globais.username
+            de: loginUser
         };
 
         SUPABASE

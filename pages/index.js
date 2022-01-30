@@ -2,7 +2,6 @@ import appConfig from '../config.json';
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import React from 'react';
 import { useRouter } from 'next/router';
-import Globais from './Globais';
 
 
 //props = valor passado em uma tag de outro componente
@@ -24,13 +23,13 @@ function Titulo(props) {
     );
 }
 
+
 //export default HomePage
 
 export default function PaginaInicial() {
     //const username = 'Luc45-Pereira';
     const [username, setUsername] = React.useState('Luc45-Pereira');
     const roteamento = useRouter();
-    Globais.username = username;
 
     return (
         <>
@@ -64,7 +63,7 @@ export default function PaginaInicial() {
                             function (infosDoEvento) {
                                 if(username!=''){
                                     infosDoEvento.preventDefault()
-                                    roteamento.push('/chat')
+                                    roteamento.push(`/chat/?username=${username}`)
                                 }
                                 
                             }
